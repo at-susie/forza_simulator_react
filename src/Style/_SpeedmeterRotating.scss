@@ -1,0 +1,50 @@
+.sg_container {
+  &.speedmeter_rotating {
+    width: 400px;
+    height: 400px;
+    background: #36313000;
+    z-index: 0;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > div:first-child {
+      transform: translateY(64px);
+    }
+    .notification {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      top: 90px;
+      opacity: 0;
+      @include transition;
+      span {
+        font-size: 40px;
+      }
+    }
+    &.red {
+      .notification {
+        opacity: 1;
+        top: 70px;
+      }
+    }
+    .speedmeter_outer {
+      @include pos_ab_basic($width:480px, $height:480px);
+      > div:first-child {
+        transform: translateY(30px);
+      }
+    }
+  }
+  .sn_container {
+    &:after {
+      background: none;
+    }
+  }
+}
+
+.sp_hider {
+  @include pos_ab_basic($width:320px, $height:320px);
+  border-radius: 50%;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.74) 40%, rgba(0, 0, 0, 0) 60%);
+}

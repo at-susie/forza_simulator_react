@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap'); 
+
+$bg_darkbrown: rgba(76, 69, 68, 1.0);
+$primary_white: rgba(255, 255, 255, 1.0);
+$primary_orange: rgb(255, 94, 0);
+$secondary_white: rgba(255, 255, 255, 0.5);
+$shadow_selected: 0px 8px 16px rgba(0, 0, 0, 0.6);
+
+@mixin primary_font {
+  font-weight: 700;
+  color: $primary_white;
+}
+
+@mixin secondary_font {
+  font-weight: 200;
+  color: $secondary_white;
+}
+
+@mixin highlight_middle {
+  font-weight: 700;
+  color: $primary_white;
+  font-size: 18px;
+}
+
+@mixin transition {
+  transition: 0.3s ease;
+}
+
+@mixin flex_center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin selected_blue_line {
+  // This is applied to "before" pseudo content
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 8;
+  border-radius: 8px;
+  box-shadow:  0 0 0 4px rgb(0, 162, 255);
+}
+
+@mixin list_item {
+  display: flex;
+  width: 100%;
+  padding: 20px 20px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 1vw 0;
+  position: relative;
+  flex-direction: row;
+  &.selected {
+    background: rgba(0, 0, 0, 0.3);
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow:  $shadow_selected;
+      border-radius: 8px;
+    }
+    &:before {
+      @include selected_blue_line;
+    }
+  }
+  .item_info {
+    display: flex;
+    flex-direction: column;
+    p:first-child {
+      margin: 0 0 4px 0;
+      font-size: 2.5vw;
+      font-weight: 700;
+      text-overflow: ellipsis;
+    }
+    p:last-child {
+      color: $secondary_white;
+    }
+  }
+}
+
+@mixin  unit {
+  font-size: 14px;
+  font-weight: 700;
+  color: $secondary_white;
+  padding-top: 8px;
+}
+
+@mixin pos_ab_basic($width, $height) {
+  position: absolute !important;
+  left: 50%;
+  top: 50%;
+  width:  $width;
+  height: $height;
+  margin-left: -($width / 2);
+  margin-top: -($height / 2);
+}
+

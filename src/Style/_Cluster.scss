@@ -1,0 +1,664 @@
+@import 'Core', 'SpeedmeterRotating';
+
+/********* Cluster *********/
+
+.cluster_container {
+  width: 100%;
+  height: 100%;
+  overflow-Y: scroll;
+  overflow-X: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 64px;
+  background: $bg_darkbrown;
+  @include transition;
+  .cluster_header {
+    width: 100%;
+    height: 64px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    
+    .clock_container {
+      height: 100%;
+      @include flex_center;
+      @include pos_ab_basic($width:80px, $height:40px);
+    }
+  }
+
+  .cluster_main {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-around;
+    padding: 24px 40px 0px 40px;
+    align-items: center;
+  }
+  
+  .cluster_footer {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .cluster_container {
+    .cluster_header {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .cluster_main {
+      flex-direction: column;
+      margin: 120px 0 160px 0;
+      >div {
+        margin: 16px 0;
+      }
+      .speedmeter_container {
+        transform: scale(0.8);
+        .fm_container {
+          margin-top: -136px;
+        }
+      }
+    }
+    .cluster_footer {
+      .miniplayer_info {
+        display: none;
+      }
+      .tbt_info {
+        display: none;
+      }
+    }
+  }
+}
+
+
+.icon_drawer {
+  display: flex;
+  .drawer_container {
+    div {
+      > button {
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: $primary_white;
+      }
+    }
+  }
+}
+
+.form-group {
+  .btn-primary {
+    color: #363130 !important;
+    position: relative !important;
+  }
+}
+
+// Speedmeter
+.speedmeter_container {
+  position: relative;
+}
+
+.sn_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  left: 50%;
+  top: 50%;
+  margin-left: -80px;
+  margin-top: -80px;
+  div {
+    z-index: 2;
+  }
+  &:after {
+    position: absolute;
+    content: '';
+    width: 160px;
+    height: 160px;
+    left: 50%;
+    top: 50%;
+    margin-left: -80px;
+    margin-top: -80px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .sn_number {
+    @include primary_font;
+    font-size: 72px;
+  }
+}
+
+.sg_container {
+  width: 400px;
+  height: 400px;
+  background: #363130;
+  z-index: 0;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .sg_graphic {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    @include transition;
+    &.blue {
+      background: rgba(0, 183, 255, 0.3);
+    }
+    &.yellow {
+      background: rgba(200, 255, 0, 0.3);
+    }
+    &.orange {
+      background: rgba(255, 196, 0, 0.3);
+    }
+    &.red {
+      background: rgba(255, 0, 0, 0.3);
+    }
+  }
+  .notification {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 90px;
+    opacity: 0;
+    @include transition;
+    span {
+      font-size: 40px;
+    }
+  }
+  &.red {
+    .notification {
+      opacity: 1;
+      top: 70px;
+    }
+  }
+}
+
+// Rev meter
+
+.revmeter_container {
+  position: relative;
+  .rg_container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    .revmeter_outer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > div:first-child {
+        transform: translateY(-22px);
+      }
+      .label {
+        width: 100px;
+        height: 40px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-bottom: 0px;
+        margin-left: -50px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.sp_container {
+  position: absolute;
+  width: 200px;
+  height: 56px;
+  left: 50%;
+  top: 50%;
+  margin-left: -100px;
+  margin-top: -28px;
+  @include flex_center;
+  flex-direction: column;
+  .unit {
+    padding-top: 8px;
+  }
+  .sp_number {
+    @include flex_center;
+    @include primary_font;
+    font-size: 48px;
+  }
+}
+
+
+/// Mixin to place items on a circle
+
+@mixin on-circle($item-count, $circle-size, $item-size) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width:  $circle-size;
+  height: $circle-size;
+  padding: 0;
+  border-radius: 50%; 
+  list-style: none;
+  margin-left: -($circle-size / 2);
+  margin-top: -($circle-size / 2);
+  
+  > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top:  50%; 
+    left: 50%;
+    width:  $item-size;
+    height: $item-size;
+    margin: -($item-size / 2);
+    text-align: center;
+    opacity: 0.3;
+  
+    $angle: (360 / $item-count);
+    $rot: 136;
+
+    @for $i from 1 through $item-count {
+      &:nth-of-type(#{$i}) {
+        transform: 
+          rotate($rot * 1deg) 
+          translate($circle-size / 2) 
+          rotate($rot * -1deg);
+      }
+      $rot: $rot + $angle;
+    }
+  }
+}
+
+.circle-container {
+  &.rpm {
+    @include on-circle($item-count: 12, $circle-size: 10.6em, $item-size: 4em); 
+  }
+  &.speed {
+    @include on-circle($item-count: 16, $circle-size: 14.0em, $item-size: 4em);
+    > * {
+      opacity: 0.8;
+      font-size: 14px;
+    }
+  }
+}
+
+// Mini music player
+.mp_container {
+  display: flex;
+  align-items: center;
+  width: 30%;
+  .miniplayer_cover {
+    width: 64px;
+    height: 64px;
+    border-radius: 8%;
+    background: url("../Img/album_2.jpg");
+    background-size: cover;
+  }
+  .miniplayer_info {
+    display: flex;
+    flex-direction: column;
+    @include highlight_middle;
+    padding: 0 16px;
+    .unit {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      //div {margin-left: 8px;}
+    }
+  }
+}
+
+// TBT navigation
+.tbt_container {
+  @extend .mp_container;
+  flex-direction: row-reverse;
+  .tbt_icon {
+    @extend .miniplayer_cover;
+    background: url("../Img/tbt_turn_right.svg");
+    background-size: cover;
+  }
+  .tbt_info {
+    @extend .miniplayer_info;
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+
+// Fuel meter
+.fm_container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -284px;
+  margin-top: -243px;
+  opacity: 1;
+  .apexcharts-canvas {
+    transform: scale(1, -1);
+  }
+  .fm_icon {
+    position: absolute;
+    bottom: 45px;
+    left: 158px;
+    transform: rotate(32deg);
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+// ODO meter
+.odo_container {
+  width: 30%;
+  height: 120px;
+  @include flex_center;
+  flex-direction: column;
+  .odo_number {
+    @include highlight_middle;
+  }
+}
+
+// G-force meter
+.gf_container {
+  width: 220px;
+  height: 220px;
+  position: relative;
+  
+  &:after {
+    content: '';
+    width: 220px;
+    height: 1px;
+    position: absolute;
+    top: 110px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 0;
+  }
+  &:before {
+    content: '';
+    width: 1px;
+    height: 220px;
+    position: absolute;
+    top: 0;
+    left: 110px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 0;
+  }
+  .gf_info {
+    text-align: center;
+    margin-top: 16px;
+  }
+  .gf_graphic_bg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: solid 1px rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.05);
+    position: relative;
+    //transform:rotateX(20deg);
+    &:before {
+      content: '';
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -70px;
+      margin-top: -70px;
+      border: dashed 1px rgba(255, 255, 255, 0.1);
+      z-index: 0;
+    }
+    &:after {
+      content: '';
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -30px;
+      margin-top: -30px;
+      border: dashed 1px rgba(255, 255, 255, 0.1);
+      z-index: 0;
+    }
+    .gf_marker {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      top: 50%;
+      left: 50%;
+      margin-left: -12px;
+      margin-top: -12px;
+      transition: ease 0.2s;
+      
+    }
+    .gf_marker_after1 {
+      @extend .gf_marker;
+      opacity: 0.6;
+      transition: ease 0.4s;
+    }
+    .gf_marker_after2 {
+      @extend .gf_marker;
+      opacity: 0.3;
+      transition: ease 0.6s;
+    }
+    .gf_marker_after3 {
+      @extend .gf_marker;
+      opacity: 0.1;
+      transition: ease 0.8s;
+    }
+    .dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      &.primary {
+        &:after {
+          content: '';
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: -12px;
+          margin-top: -12px;
+          background: rgba(255, 255, 255, 0.8);
+          
+        }
+      }
+    }
+  }
+}
+
+
+// View mode 2
+.viewmode_2 {
+  background: #000;
+  .sn_number, .sp_number {
+    font-size: 56px !important;
+  }
+  .cluster_header {
+    z-index: 4;
+    height: 120px;
+    justify-content: center;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+    .tbt_container {
+      flex-direction: row;
+      justify-content: center;
+      .tbt_info {
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+  }
+  .cluster_main {
+    padding: 24px 20px 0px 20px;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .speedmeter_container {
+    z-index: 3;
+    .sg_container.speedmeter_rotating {
+      width: 320px;
+      height: 320px;
+    }
+  }
+  .revmeter_container {
+    z-index: 3;
+    .rg_container {
+      width: 320px;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .revmeter_outer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .label {
+          margin-bottom: 40px;
+        }
+        >div:first-child {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transform: translateY(-32px);
+        }
+        .circle-container {
+          &.rpm {
+            @include on-circle($item-count: 12, $circle-size: 14em, $item-size: 4em);
+            .s_item {
+              font-size: 14px;
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+      .revmeter_inner {
+        @include pos_ab_basic($width:320px, $height:320px);
+        > div:first-child {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transform: translateY(28px);
+        }
+      }
+    }
+    .sp_container {
+      flex-direction: column-reverse;
+    }
+  }
+  .mini_map_container {
+    overflow: hidden;
+    z-index: 1;
+    @include pos_ab_basic($width: 800px, $height: 800px);
+    &:after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      background-image: linear-gradient(to right, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.0) 25%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1));
+    }
+    &:before {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      background-image: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.0) 25%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1));
+    }
+    .minimap_wrapper {
+      width: 100%;
+      height: 800px;
+
+      background-color: #363130;
+    }
+    .map {
+      overflow: hidden;
+      width: 800px;
+      height: 800px;
+
+      #outer-map-element {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+      
+        background-color: #F0F;
+      
+        transform: translate(400px, 400px) scale(0.5);
+      }
+
+      #inner-map-element {
+        position: absolute;
+        width: 4800px;
+        height: 4800px;
+      
+        background-color: #033;
+        background-image: url(../Img/rastermap_dark.jpg);
+        background-position: center;
+          background-repeat: no-repeat;
+      }
+      
+      #dot {
+        position: absolute;
+        top: 380px;
+        left: 380px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .cv_graphic {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        .map_marker {
+          left: 50%;
+          top: 50%;
+        }
+        .Image {
+          width: 800px !important;
+          height: 800px;
+        }
+      }
+    }
+  }
+  .cluster_footer {
+    height: 160px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 4;
+    justify-content: center;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+    .ca_item {
+      .title {
+        display: none;
+      }
+      .graphic {
+        background: rgba(0, 0, 0, 0.4) !important;
+      }
+    }
+  }
+}
