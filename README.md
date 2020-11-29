@@ -1,7 +1,6 @@
-# React Router Simple Starter Project
+# Forza Simulator
+This is an experimental prototyoe using a relatively new function of Forza Motorsport & Horizon (XBOX game) called 'Data out', which allows the player to stream and export a wide range of driving data, such as speed, engine rev, G-force, etc.
 
-
-*Important Note*: This is just an example and it's not meant to be used in production.
 
 ### Installing
 
