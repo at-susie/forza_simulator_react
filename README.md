@@ -1,5 +1,5 @@
 # Forza Simulator
-This is an experimental prototyoe using a relatively new function of Forza Motorsport & Horizon (XBOX game) called 'Data out', which allows the player to stream and export a wide range of driving data, such as speed, engine rev, G-force, etc.
+This is an experimental prototyoe using a relatively new function of Forza Motorsport & Horizon (XBOX game) called 'Data out', which allows the player to stream and export a wide range of driving data, such as speed, engine rev, G-force, etc. and visualize the data on a React-based web app.
 
 
 ### Installing
